@@ -118,6 +118,48 @@ var lengthOfLongestSubstring = function(s) {
         }
     }
     console.log(string1, string2);
+    if (string1.length === string2.length) {
+        let track = 0;
+        const comboArr = [];
+        
+        
+        while (string2[track] !== undefined) {
+            comboArr.push(string2[track]);
+            track++;
+        }
+        
+        // track = 0;
+        let lastValue = string1.length - 1;
+        let value;
+        let end = false;
+        while (end === false) {
+            if (string1[lastValue] !== undefined) {
+                    value = string1[lastValue];
+                    console.log('tracking', string1[lastValue])
+                    
+                }
+            for (let i = 0; comboArr.length > i; i++) {
+                
+                if (string1[lastValue - 1] === comboArr[i] || string1[lastValue - 1] === comboArr[i - 1]) {
+                        end = true;
+                    
+                }
+                if (value !== "" && end === false) {
+                    comboArr.unshift(value);
+                }
+                
+            }
+            lastValue--;
+        }
+        if (comboArr.length > string1.length || comboArr.length > string2.length) {
+            // if (comboArr[0] !== undefined) comboArr.shift();
+            
+            console.log("same", comboArr.length, comboArr);
+            
+            return comboArr.length;
+        }
+        
+    }
     if (string1.length > string2.length) {
         return string1.length;
     } else return string2.length;
