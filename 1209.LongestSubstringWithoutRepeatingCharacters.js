@@ -3,165 +3,100 @@
  * @return {number}
  */
 var lengthOfLongestSubstring = function(s) {
-    const string1 = [];
-    const string2 = [];
-    let current = "s1";
+    const arr1 = [];
+    const arr2 = [];
+    const tiedArr = [];
+    let current = 's1'
+    
     for (let i = 0; s.length > i; i++) {
-        const track1 = string1.length - 1;
-        const track2 = string2.length - 1;
-        
         if (i === 0) {
-            string1.push(s[i]);
-            
-        } else {
-            if (s[i] !== s[i - 1]) {
-                if (current === "s1") {
-                    string1.push(s[i]);
-                } else {
-                   string2.push(s[i]); 
-                }
-                
-            } else if (string2 === []) {
-                string2.push(s[i]);
-                current = "s2"
+            arr1.push(s[i]);
+        }
+        const lastArr1 = (arr1.length - 1);
+        const lastArr2 = (arr2.length - 1);
+        
+        if (s[i] !== arr1[lastArr1] && current === 's1') {
+            arr1.push(s[i])
+        }
+        if (s[i] !== arr2[lastArr2] && current === 's2') {
+            arr2.push(s[i])
+        }
+        // console.log('looping... arr2[lastArr2]', arr2[lastArr2], arr2, 'arr1[lastArr1]', arr1[lastArr1], arr1[arr1.length - 1])
+        if (s[i] === arr2[lastArr2] && i !== 0 || s[i] === arr1[lastArr1] && i !== 0){
+            if (current === "s1") {
+                current = "s2";
+                console.log('switch to s2', 'last', s[i - 1], 'current', s[i], i)
+                arr2.push(s[i]);
             } else {
-                if (track1 > track2) {
-                    while (string2[track2] !== undefined) {
-                        string2.pop();
-                    }
-                    string2.push(s[i]);
-                    current = "s2"
-                } else if (track2 > track1) {
-                    while (string1[track1] !== undefined) {
-                        string1.pop();
-                    }
-                    string1.push(s[i]);
-                    current = "s1";
-                } else {
-                    while (string2[track2] !== undefined) {
-                        string2.pop();
-                    }
-                    string2.push(s[i]);
-                    current = "s2"
-                }
+                current = "s1";
+                console.log('switch to s1', 'last', s[i - 1], 'current', s[i], i)
+                arr1.push(s[i]);
             }
         }
-        if (string1.length > 2 || string2.length > 2) {
-            if (current === "s1"){
-                let trackChar = 1;
-                while (string1[trackChar] !== undefined) {
-                    string1.forEach((each, i) => {
-                        if (i !== trackChar) {
-                            if (each === string1[trackChar]) {
-                                string1.pop();
-                                // check length of string 1
-                                // check length of string 2
-                                // whichever string is longest is kept
-                                // the other string is cleared, and used for new values
-                                if (track1 > track2) {
-                                    while (string2[track2] !== undefined) {
-                                        string2.pop();
-                                    }
-                                    string2.push(s[i]);
-                                    current = "s2"
-                                } else if (track2 > track1) {
-                                    while (string1[track1] !== undefined) {
-                                        string1.pop();
-                                }   
-                                    string1.push(s[i]);
-                                    current = "s1";
-                                } else {
-                                    while (string2[track2] !== undefined) {
-                                    string2.pop();
-                                }
-                                    string2.push(s[i]);
-                                    current = "s2"
-                                }
-                            }
-                        }
-                    })
-                    trackChar++
-                }
-            } else {
-                let trackChar = 1;
-                while (string2[trackChar] !== undefined) {
-                    string2.forEach((each, i) => {
-                        if (i !== trackChar) {
-                            if (each === string2[trackChar]) {
-                                string2.pop();
-                               
-                                if (track1 > track2) {
-                                    while (string2[track2] !== undefined) {
-                                        string2.pop();
-                                    }
-                                    string2.push(s[i]);
-                                    current = "s2"
-                                } else if (track2 > track1) {
-                                    while (string1[track1] !== undefined) {
-                                        string1.pop();
-                                }   
-                                    string1.push(s[i]);
-                                    current = "s1";
-                                } else {
-                                    while (string2[track2] !== undefined) {
-                                    string2.pop();
-                                }
-                                    string2.push(s[i]);
-                                    current = "s2"
-                                }
-                            }
-                        }
-                    })
-                    trackChar++
-                
-            }}
+    };
+    console.log('end of loop 1', arr1, arr2)
+    
+    // loop in reverse to find longest string in opposite direction
+    const temp = [];
+    const lastTemp = temp.length - 1;
+    for (let i = (s.length - 1); i >= 0; i--) {
+        if (i === (s.length - 1)) {
+            temp.push(s[i])
+        };
+        if (s[i] !== temp[lastTemp]) {
+            temp.push(s[i])
         }
-    }
-    console.log(string1, string2);
-    if (string1.length === string2.length) {
-        let track = 0;
-        const comboArr = [];
-        
-        
-        while (string2[track] !== undefined) {
-            comboArr.push(string2[track]);
-            track++;
-        }
-        
-        // track = 0;
-        let lastValue = string1.length - 1;
-        let value;
-        let end = false;
-        while (end === false) {
-            if (string1[lastValue] !== undefined) {
-                    value = string1[lastValue];
-                    console.log('tracking', string1[lastValue])
-                    
+        if (s[i] === temp[lastTemp]) {
+            const length1 = arr1.length;
+            const length2 = arr2.length;
+            const tempLength = temp.length;
+            let smaller;
+            if (length2 > length1) {
+                smaller = "a1";
+            }
+            if (length1 > length2) {
+                smaller = "a2";
+            }
+            if (smaller === "a1") {
+                if (temp.length > arr1.length) {
+                    let tracker = arr1.length - 1;
+                    while (arr1[tracker] !== undefined){
+                        arr1.pop();
+                    } 
+                    temp.forEach(each => {
+                        arr1.push(each)
+                    })
+                } else {
+                    let tracker = temp.length - 1;
+                    while (temp[tracker] !== undefined) {
+                        temp.pop();
+                    } 
+                    temp.push(s[i])
                 }
-            for (let i = 0; comboArr.length > i; i++) {
-                
-                if (string1[lastValue - 1] === comboArr[i] || string1[lastValue - 1] === comboArr[i - 1]) {
-                        end = true;
-                    
-                }
-                if (value !== "" && end === false) {
-                    comboArr.unshift(value);
+            };
+            if (smaller === "a2") {
+                if (temp.length > arr2.length) {
+                    let tracker = arr2.length - 1;
+                    while (arr2[tracker] !== undefined) {
+                        arr2.pop();
+                    } 
+                    temp.forEach(each => {
+                        arr2.push(each)
+                    });
+                    while (temp[tracker] !== undefined) {
+                        temp.pop();
+                    } 
+                } else {
+                    let tracker = temp.length - 1;
+                    while (temp[tracker] !== undefined) {
+                        temp.pop();
+                    } 
+                    temp.push(s[i])
                 }
                 
             }
-            lastValue--;
         }
-        if (comboArr.length > string1.length || comboArr.length > string2.length) {
-            // if (comboArr[0] !== undefined) comboArr.shift();
-            
-            console.log("same", comboArr.length, comboArr);
-            
-            return comboArr.length;
-        }
-        
     }
-    if (string1.length > string2.length) {
-        return string1.length;
-    } else return string2.length;
+    console.log('arr1', arr1,'arr2', arr2, temp)
     
 };
