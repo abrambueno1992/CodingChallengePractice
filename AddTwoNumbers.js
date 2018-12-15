@@ -1,4 +1,4 @@
-/**
+ /**
  * Definition for singly-linked list.
  * function ListNode(val) {
  *     this.val = val;
@@ -11,84 +11,80 @@
  * @return {ListNode}
  */
 var addTwoNumbers = function(l1, l2) {
-    console.log(l1.val)
-    // console.log("Buffer to next linked list");
-    const arr1 = [];
-    const arr2 = [];
-    const retArr = [];
-    if (l1.val || l1.val === 0) {
-        arr1.push(l1.val)
-        let current = l1.next;
-        while (current) {
-            console.log('unshift', current.val);
-            arr1.unshift(current.val)
-            current = current.next
-        }
-        console.log('arr1', arr1)
+    let arr = [];
+    let arr2 = [];
+    while(l1 !== null){
+        arr.unshift(l1.val);
+        l1 = l1.next
     }
     
-    console.log(l2.val);
-    if (l2.val || l2.val === 0) {
-        arr2.push(l2.val);
-        let current2 = l2.next;
-        while (current2) {
-            arr2.unshift(current2.val)
-            console.log('unshift', current2.val);
-            current2 = current2.next
-        }
+    while(l2 !== null){
+        arr2.unshift(l2.val);
+        l2 = l2.next
     }
-    console.log(arr1, arr2)
-    let str1 = '';
-    let str2 = '';
-    for (let i = 0; arr1.length > i; i++) {
-        str1 += arr1[i];
-        str2 += arr2[i];
-    }
-    str1 = parseInt(str1, 10);
-    str2 = parseInt(str2, 10);
-    let strSum = str1 + str2;
-    strSum = strSum.toString().split('').reverse();
-    let newList = new ListNode();
-    let diffeNode = null;
-    strSum.forEach((each, i) => {
-        let num = parseInt(each, 10);
-        
-        if (i === 0) {
-            if (num === 0 && strSum.length === 1) {
-                diffeNode = new ListNode(0);
-                console.log("END condition", diffeNode, l1)
-                // return diffeNode;
-            }
-            newList.val = each;
-            let another = new ListNode();
-            newList.next = another;    
-            console.log('DEBUG FIRST', each === 0, typeof each, strSum.length === 1, strSum.length)
-        } else {
-            if (i !== (strSum.length - 1)) {
-                newList.next.val = each;
-                // let another = new ListNode();
-                // newList.next = another;
-                console.log('DEBUG !!')
-            } else {
-                // newList.next.val = each;
-                let another = new ListNode();
-                newList.next.next = another;
-                newList.next.next.val = each;
-                console.log('DEBUG LAST')
-                
-            }
-        }
-        
-        retArr.push(num)
+    
+    let arrsum = '';
+    let arrsum2 = '';
+    
+    
+    arr.forEach((x,index)=> {
+        arrsum += x.toString()
+        arrsum2 += arr2[index].toString();
     })
-
-    console.log(newList)
     
-    if (diffeNode) {
-        return diffeNode
-    } else {
-        return newList
+    
+    arrsum = parseInt(arrsum,10)
+    arrsum2 = parseInt(arrsum2,10)
+    
+    let total = arrsum + arrsum2;
+    let x =total.toString();
+    let y = x.split('');
+    
+    
+    let l3;
+    let l4;
+//     for(let z = 0; z < y.length -1 ; y++){
+//         if(z === 0){
+//            l3 = new ListNode()
+//             l3.val = parseInt(y[z], 10);
+            
+//             l3.next.next = new ListNode(parseInt(y[z+ 2], 10))
+//         }
+//         else{
+//             l3.next = new ListNode(parseInt(y[z+ 1], 10))
+//             l3 = l3.next
+//             l3.val = parseInt(y[z + 1], 10);
+//             l3.next = new ListNode()
+//         }
+  
+// //         l3.next = new ListNode(parseInt(y[z+1], 10))
+// //         l3 = l3.next
+        
+        
+//     }
+    
+    l3 = new ListNode();
+    l3.val = parseInt(y[0], 10);
+    l3.next = new ListNode();
+    console.log('y length', y.length)
+    for(let z=1; z < y.length; y++ ){
+        if(l3.next === null && l3.val === undefined){
+            l3.next = new ListNode(parseInt(y[z], 10));
+        } else {
+            let test = l3
+            console.log('test before', test)
+            while (test.next !== null) {
+                test = test.next;
+            }
+            console.log('else test', test, 'l3', l3)
+            test.next = new ListNode(parseInt(y[z], 10));
+        
+        }
+        
+        
+        // console.log("l3", l3.next)
+        // l3 = l3.next
     }
-    // return newList
-    console.log(strSum, retArr);
-};
+    
+    return l3
+}; 
