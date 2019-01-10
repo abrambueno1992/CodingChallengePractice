@@ -22,27 +22,35 @@ var convert = function(s, numRows) {
             }
             iRow = endRow - 1;
             iColumn++;
+            // console.log("SET iRow", iRow, " endRow: ", endRow, " iColumn :", iColumn, " array: ", arrayChar)
         } else {
-            console.log('Before End', s[tracker],s, arrayChar, numRows)
-            
-            arrayChar[iRow][iColumn] = (s[tracker]);
-            console.log('End', s[tracker],s, arrayChar)
-            
-            tracker++;
-            iRow--;
+            for (let i = 0; endRow >= i; i++) {
+                if (i !== iRow) {
+                    arrayChar[i].push("");
+                } else {
+                    arrayChar[i].push(s[tracker]);
+                    tracker++;
+                }
+            }
             iColumn++;
+            iRow = 0;
+            // console.log('ENDING: ', arrayChar)
+            
                 
             
         }
     }
-    while (tracker !== endString) {
+    while (tracker <= endString) {
         const ascending = (iRow !== 0) ? false : true;
         loopThrough(tracker, ascending);
+        console.log('tracker ', tracker, 'endString ', endString)
         // tracker++;
         
     }
     
     
-    console.log('end of loop: ', arrayChar)
+    console.log('end of loop: ', arrayChar);
+    return arrayChar;
     
-}
+    
+};
