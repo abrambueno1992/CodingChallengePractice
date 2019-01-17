@@ -1,33 +1,37 @@
 /**
  * Definition for singly-linked list.
  * function ListNode(val) {
- *     this.val = this.val;
+ *     this.val = val;
  *     this.next = null;
  * }
  */
+
 /**
- * @param {ListNode} l1
- * @param {ListNode} l2
+ * @param {ListNode} headA
+ * @param {ListNode} headB
  * @return {ListNode}
  */
-var addTwoNumbers = function(l1, l2) {
-    let carry = 0;
-    let newNode = new ListNode(0);
-    let current = newNode;
-    while(l1 || l2 || carry) {
-        // sum l1.va + l2.val + carry
-        let sum = (l1 ? l1.val : 0) + (l2 ? l2.val : 0) + carry;
-        
-        // remainder sum % 10 === this.val of next node
-        current.next = new ListNode(sum % 10);
-        
-        // sets next pointer, null
-        current = current.next;
-        
-        // remainder if sum >= 10
-        carry = sum >= 10 ? 1 : 0;
-        l1 = l1 ? l1.next : null; 
-        l2 = l2 ? l2.next : null;
+var getIntersectionNode = function(headA, headB) {
+    
+    let trackA = headA;
+    let trackB = headB;
+    // if either Nodes are null, return null
+    if (!headA || !headB) {
+    return null;
   }
-  return newNode.next;
+
+    
+    while (trackA !== trackB) {
+        // if trackA !== null, trackA = trackA.next
+        // if trackA === null, trackA = headB
+        trackA = trackA ? trackA.next : headB;
+        
+        // if trackB !== null, trackB = trackB.next
+        // if trackB === null, trackB = headA;
+        trackB = trackB ? trackB.next : headA;
+        
+    }
+    return trackA;
+ 
+    
 };
