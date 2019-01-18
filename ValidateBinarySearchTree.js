@@ -10,77 +10,25 @@
  * @return {boolean}
  */
 var isValidBST = function(root) {
-    // console.log('root', root, root.val);
-    const left = [];
-    const right = [];
-    let checkValuesR;
-    let checkValuesL;
-    const rootVal = root ? root.val : null;
-    if (rootVal === null) return root
-    checkValuesL = (root1) => {
-        if (root1) {
-            left.push(root1.val)
-        }
-        if (root1) {
-            checkValuesR(root1.right);
-        }
-        if (root1) {
-            checkValuesL(root1.left)
-        }
-    }
-    
-    checkValuesR = (root1) => {
-        if (root1) {
-            right.push(root1.val)
-        }
-        if (root1) {
-            checkValuesR(root1.right);
-        }
-        if (root1) {
-            checkValuesL(root1.left)
-        }
-    }
-    let resL = checkValuesL(root.left);
-    let resR = checkValuesR(root.right);
-    let large;
-    let small;
-    if (right.length > left.length) {
-        large = right;
-        small = left;
-    } else {
-        large = left;
-        small = right;
-    }
-    let lroot = 0;
-    let rroot = 0;
-    for (let i = 0; large > i; i++) {
-        
-        if (i === 0) {
-            if (left[0] > rootVal) {
-                return false;
-            }
-            if (right[0] < rootVal) {
-                return false
-            }
-            if (left[0] > right[0]) {
-                return false;
-            }
-            
-        } else {
-            lroot = left[i - 1];
-            rroot = right[i - 1];
-            if (left[i] > right[i]) {
-                return false;
-            }
-            if (rroot > right[i]) {
-                return false;
-            }
-            if (lroot < left[i]) {
-                return false
-            }
-        }
-    }
-    console.log(left, right)
-    return true;
+    return checkVal(root, Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY);
     
 };
+
+function checkVal(node, min, max) {
+  if (!node) {
+    return true;
+  }
+
+  if (node.val < min || node.val > max) {
+    return false;
+  }
+
+  // Current val is max for left child and min for right child
+    // node.val === root
+    // min === minimum on left, left nodes are always less than root
+    // node.val - 1 === max on left, left is less than root
+    
+    // node.val + 1 === minimum on right, right is bigger than root
+    // max === maximum on right, right is always bigger than root
+  return checkVal(node.left, min, node.val - 1) && checkVal(node.right, node.val + 1, max);
+}
