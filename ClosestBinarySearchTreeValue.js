@@ -11,40 +11,22 @@
  * @return {number}
  */
 var closestValue = function(root, target) {
-    let nodeTrack = root;
-    let closest = target * 5; // for laughs
-    const checkValue = nodeV => {
-        if (nodeV) {
-            let dif = target - closest;
-            
-            let difNode = target - nodeV.val;
-            
-                if (dif < 0) {
-                    dif *= -1;
+    let larger = Infinity; 
+    let smaller = -Infinity;
+    
+    while(root != null)
+        {
+            if(target < root.val)
+                {
+                    larger = Math.min(root.val, larger);
+                    root = root.left;
                 }
-                if (difNode < 0) {
-                    difNode *= -1;
+            else
+                {
+                    smaller = Math.max(root.val, smaller);
+                    root = root.right;
                 }
-                
-            let result;
-            if (difNode > 0 ) {
-                result = (dif < difNode) ? closest : nodeV.val;
-                console.log('result: ', result, 'nodeV.val: ', nodeV.val)
-                
-            } else {
-                result = closest;
-            }
-            
-            console.log('dif: ', dif, 'result:', result);
-            closest = result;
         }
-        if (nodeV) {
-            checkValue(nodeV.left) && checkValue(nodeV.right);
-            
-        }
-    }
-    closest = root.val;
-    checkValue(nodeTrack.left);
-    checkValue(nodeTrack.right);
-    return closest;
+    if(larger-target < target-smaller) return larger;
+    else return smaller;
 };
