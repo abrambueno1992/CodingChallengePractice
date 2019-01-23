@@ -10,41 +10,28 @@
  * @return {number[][]}
  */
 var levelOrder = function(root) {
-    const nodeTrack = root;
-    const nodesArr = [];
-    nodesArr.push([]);
-    let tracker = 0;
-    nodesArr[tracker].push(root.val);
-    tracker++;
+    if (!root) return [];
+    let res = [];
+    // root as an array
+    // all nodes into level, at root level
+    let level = [root];
     
-    const checkValues = (lnode, rnode) => {
-        console.log('locked')
-        if (!lnode && !rnode) return;
-        if (lnode && rnode) {
-            nodesArr.push([]);
-            nodesArr.push(lnode.val);
-            nodesArr[tracker].push(rnode.val);
-            tracker++;
-            checkValues(lnode.left, rnode.right);
-        } else if (lnode && !rnode) {
-            nodesArr.push([]);
-            nodesArr[tracker].push(lnode.val);
-            tracker++;
-            checkValues(lnode.left, rnode);
-        } else if (!lnode && rnode) {
-            nodesArr.push([]);
-            nodesArr[tracker].push(rnode.val);
-            tracker++;
-            checkValues(lnode, rnode.right);
-        } else {
-            return
+    while (level.length > 0) {
+        // push value of node into res array
+        res.push(level.map(node => node.val));
+        // temp array holds left and right nodes
+        let temp = [];
+        for (let i=0; i<level.length; i++){
+            // if theres a left, push to temp array
+            if (level[i].left)  temp.push(level[i].left);
+            // if there's a right, push to temp array
+            if (level[i].right) temp.push(level[i].right);
         }
+        // level is now temp, holding left and right nodes
+        // one level deeper
+        level = temp;
     }
-    if (!root) return null;
-    
-    
-    checkValues(nodeTrack.left, nodeTrack.right);
-    return nodesArr;
-    console.log("end values:", nodesArr)
+    // returns res array, the result
+    return res;
     
 };
