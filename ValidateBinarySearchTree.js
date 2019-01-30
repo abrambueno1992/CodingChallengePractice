@@ -24,11 +24,11 @@ function checkVal(node, min, max) {
   }
 
   // Current val is max for left child and min for right child
-    // node.val === root
+    // root  === node.val
     // min === minimum on left, left nodes are always less than root
-    // node.val - 1 === max on left, left is less than root
+    // max  === node.val - 1, max on left, left is less than root
     
-    // node.val + 1 === minimum on right, right is bigger than root
-    // max === maximum on right, right is always bigger than root
+    // minimum  === node.val + 1, minimum on right, right is bigger than root
+    // maximum === max, maximum  on right, right is always bigger than root
   return checkVal(node.left, min, node.val - 1) && checkVal(node.right, node.val + 1, max);
 }
