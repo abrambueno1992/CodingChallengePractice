@@ -14,14 +14,16 @@ var numIslands = function(grid) {
             // row index from outside 'while' loop
             // column index from 'for' loop
             if(grid[row][column] === "1") {
-                // current reassigned grid[row][i] ="2"
+                // current reassigned grid[row][column] ="2"
                 grid[row][column] = "2";
                 // recursive
                 isLand(grid, row, column );
+                // island counter up, island found
                 count++;
             }
             
         }
+        // go to next row down
         row++;
     }
     return count
@@ -30,8 +32,11 @@ var numIslands = function(grid) {
 };
 function isLand(matrix, row, column) {
     // recursion, goes through all paths
-    // row vertical, column horizontal
-    // row++ down, row-- up, column++ right, column-- left
+    // row horizontal array with all values
+    // column values at each index of the row, representing vertical columns at that index
+    // row++ down a row vertically
+    // row-- up a row vertically
+    // column++ right, column-- left
     checkXY(matrix, row, column+1); // right
     checkXY(matrix, row, column-1); // left
     checkXY(matrix, row-1, column); // top
@@ -45,6 +50,8 @@ function checkXY(matrix, row, column) {
     // call isLand(matrix, row, column) => recursion
  if(matrix[row] && matrix[row][column] == "1") {
   matrix[row][column] = "0";
+     // after reassigning from '1' to '0'
+     // call isLand() with the same row and column
   isLand(matrix, row, column);
  }
 }
