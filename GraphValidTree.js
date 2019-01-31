@@ -6,7 +6,7 @@
 var validTree = function(n, edges) {
    if(n != edges.length+1) return false;
     // each node value has a set filled with null,{}
-    // inside of adj
+    // inside of adj, two nodes, adj === [ Set {}, Set {}]
   const adj = Array(n).fill(null).map(r=>new Set());
   const queue = [];
   const visited = new Set();
@@ -22,16 +22,16 @@ var validTree = function(n, edges) {
   queue.push(0);
   while(queue.length != 0){
     let cur = queue.shift();
-    console.log(cur);
       // if repeated, invalid tree
     if(visited.has(cur)) return false;
       // add cur to visited
       // first is root === 0, then 1 ,and so on
     visited.add(cur);
     for(let n of adj[cur]){
+      // n is the next index in adj
       queue.push(n);
-        // delete cur from n adj set
-       
+        
+        // delete cur value, from adj at index n
       adj[n].delete(cur);
     }
   } 
