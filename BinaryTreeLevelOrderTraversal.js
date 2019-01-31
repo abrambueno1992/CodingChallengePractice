@@ -18,7 +18,9 @@ var levelOrder = function(root) {
     
     while (level.length > 0) {
         // push value of node into res array
+       
         res.push(level.map(node => node.val));
+        console.log('res after:', res);
         // temp array holds left and right nodes
         let temp = [];
         for (let i=0; i<level.length; i++){
@@ -28,6 +30,7 @@ var levelOrder = function(root) {
             if (level[i].right) temp.push(level[i].right);
         }
         // level is now temp, holding left and right nodes
+        // level now has 2 values for each iteration
         // one level deeper
         level = temp;
     }
